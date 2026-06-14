@@ -196,7 +196,7 @@ function HomeAdRail({ side, ads }: { side: "left" | "right"; ads: GifAd[] }) {
                   width={220}
                   height={1100}
                   sizes="(min-width:1536px) 220px, 144px"
-                  className="h-[1100px] w-full object-cover"
+                  className="h-auto w-full object-contain"
                 />
               </div>
             );
