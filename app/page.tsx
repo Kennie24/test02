@@ -7,7 +7,6 @@ import TrustBar from "@/components/TrustBar";
 import CategoryTilesSection from "@/components/CategoryTilesSection";
 import LatestProductsSection from "@/components/LatestProductsSection";
 import Footer from "@/components/Footer";
-import GifAdsSection from "@/components/GifAdsSection";
 import type { GifAd } from "@/lib/frontend-data";
 import { getLatestPublishedProducts } from "@/lib/products-admin";
 import { getSparePartsCategoryFeature, getApplianceCategoryFeature, getArduinoCategoryFeature, getBatteriesCategoryFeature } from "@/lib/products-public";
@@ -84,7 +83,6 @@ export default async function Home() {
         <div className="min-w-0 bg-white">
           <HeroCarouselWithRightCards initialData={frontendData} />
           <TrustBar initialData={frontendData} />
-          {gifAds.length > 0 && <GifAdsSection ads={gifAds} />}
           <CategoryTilesSection
             initialData={frontendData}
             arduinoFeature={
