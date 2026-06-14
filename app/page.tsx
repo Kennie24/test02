@@ -11,6 +11,8 @@ import GifAdsSection from "@/components/GifAdsSection";
 import type { GifAd } from "@/lib/frontend-data";
 import { getLatestPublishedProducts } from "@/lib/products-admin";
 import { getSparePartsCategoryFeature, getApplianceCategoryFeature, getArduinoCategoryFeature, getBatteriesCategoryFeature } from "@/lib/products-public";
+import SafeImage from "@/components/SafeImage";
+import Link from "next/link";
 import {
   DEFAULT_TITLE,
   DEFAULT_DESCRIPTION,
@@ -157,13 +159,24 @@ export default async function Home() {
             products={products}
           />
         </div>
-        <HomeAdRail side="right" ads={gifAds} />
+        <HomeAdRail side="right" ads={frontendData.gifAds ?? []} />
       </div>
       <Footer initialData={frontendData} />
     </main>
   );
 }
 
+/**
+ * Side-rail GIF ad banners (xl viewport and up).
+ *
+ * Data source: Dashboard → StoreFront → GIF Ads
+ * Persisted in site_settings.frontend_data.gifAds, served via
+ * /api/frontend-data, typed as GifAd[].
+ *
+ * Uses SafeImage so banners route through the configured image CDN
+ * when one is set, and lazy-load below the fold. Banners without an
+ * href render as a plain <div> instead of a dead "#" link.
+ */
 function HomeAdRail({ side, ads }: { side: "left" | "right"; ads: GifAd[] }) {
   return (
     <aside
@@ -176,12 +189,33 @@ function HomeAdRail({ side, ads }: { side: "left" | "right"; ads: GifAd[] }) {
             Ad
           </div>
         ) : (
-          ads.map((ad) => (
-            <a key={ad.id} href={ad.href || "#"} aria-label={ad.alt || "Ad banner"} className="block overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={ad.image} alt={ad.alt || ""} className="w-full object-cover" />
-            </a>
-          ))
+          ads.map((ad) => {
+            const banner = (
+              <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+                <SafeImage
+                  src={ad.image}
+                  alt={ad.alt || "Promotional banner"}
+                  width={220}
+                  height={760}
+                  sizes="(min-width:1536px) 220px, 144px"
+                  className="h-auto w-full object-cover"
+                />
+              </div>
+            );
+
+            return ad.href ? (
+              <Link
+                key={ad.id}
+                href={ad.href}
+                aria-label={ad.alt || "Promotional banner"}
+                className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#114f8f]"
+              >
+                {banner}
+              </Link>
+            ) : (
+              <div key={ad.id}>{banner}</div>
+            );
+          })
         )}
       </div>
     </aside>
