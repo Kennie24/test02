@@ -183,20 +183,20 @@ function HomeAdRail({ side, ads }: { side: "left" | "right"; ads: GifAd[] }) {
     >
       <div className="space-y-4">
         {ads.length === 0 ? (
-          <div className="flex h-[760px] w-full items-center justify-center border border-dashed border-gray-300 bg-white/75 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400">
+          <div className="flex h-[1100px] w-full items-center justify-center border border-dashed border-gray-300 bg-white/75 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-400">
             Ad
           </div>
         ) : (
           ads.map((ad) => {
             const banner = (
-              <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+              <div className="overflow-hidden border border-gray-200 bg-white">
                 <SafeImage
                   src={ad.image}
                   alt={ad.alt || "Promotional banner"}
                   width={220}
-                  height={760}
+                  height={1100}
                   sizes="(min-width:1536px) 220px, 144px"
-                  className="h-auto w-full object-cover"
+                  className="h-[1100px] w-full object-cover"
                 />
               </div>
             );
